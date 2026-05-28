@@ -137,7 +137,7 @@ As for the last ingredient, it will be under the root directory. We need to get 
 
 We find an useful information that we can type `sudo` command without typing any passwords(no paswords are needed). So let's try with command `sudo ls/root/`, and we find our necessary 3rd.txt file.
 
-![final file](images/img19.png)
+![final file](images/img18.png)
 
 So by reading the content of this file with `sudo less/root/3rd.txt` we finally get our third ingredient and complete our Challenge.
 
