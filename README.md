@@ -31,7 +31,7 @@ The options I use are the followings:
 | -A | Aggresive scan | Enables several advanced detection features at once to gather more detailed information about the target |
 
 
-Without any argument specifying the ports, nmap scans the 1000 most common ports. If you want to find out more, look at the file `/usr`/share/nmap/nmap-services`. 
+Without any argument specifying the ports, nmap scans the 1000 most common ports. If you want to find out more, look at the file `/usr/share/nmap/nmap-services`. 
 
 The results come back showing just two ports open:
 
