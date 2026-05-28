@@ -46,7 +46,7 @@ And we find an interesting http-title: "Rick is sup4r cool" .
 
 ## Exploring the website
 
-if we navigate “http://10.48.175.7” in the browse, it also seems that Rick really does need our help. As this page doesn’t have any buttons or anything that could make us go to another page. So we have to check the page source by right clicking anywhere on the page and choosing “View page source” to see if there is something interesting.
+if we navigate `http://10.48.175.7` in the browse, it also seems that Rick really does need our help. As this page doesn’t have any buttons or anything that could make us go to another page. So we have to check the page source by right clicking anywhere on the page and choosing “View page source” to see if there is something interesting.
 
 ![Website Page](images/img03.png)
 
