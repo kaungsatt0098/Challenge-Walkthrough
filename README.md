@@ -46,7 +46,7 @@ And we find an interesting http-title: "Rick is sup4r cool" .
 
 ## Exploring the website
 
-if we navigate `http://10.48.175.7` in the browse, it also seems that Rick really does need our help.
+if we navigate `http://10.48.175.7` in the browser, it also seems that Rick really does need our help.
 
 ![Website Page](images/img03.png)
 
