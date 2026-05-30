@@ -60,7 +60,7 @@ However, looking at the HTML reveals a piece of interesting information: a usern
 ## Finding hidden directories
 
 We are going to be using gobuster to try and locate any directories that may have been hidden from us.  
-Command: `gobuster -u http://10.10.82.95 -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -x txt,js,py,html,css,php` .
+Command: `gobuster dir -u http://10.10.82.95 -w /usr/share/dirbuster/wordlists/directory-list-2.3-medium.txt -x txt,js,py,html,css,php` .
 
 Command Breakdown:
 
