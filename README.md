@@ -24,7 +24,7 @@ First and more obvious thing, let’s do a enumeration with the IP we received f
 
 The options I use are the followings:
 
-| Option | Meaniing | Reasoning|
+| Option | Meaning | Reasoning|
 | -- | -- | -- |
 | -sC | Use default set of scripts | Note: This includes some intrusive scans, on a CTF box this is fine, in a real-world scenario using `--script=safe` is preferred |
 | -sV | Version detection | Attempt to enumerate the versions for services found |
