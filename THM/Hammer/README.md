@@ -171,10 +171,10 @@ As an initial test, the `pwd` command was executed to confirm command execution.
 
 With command execution confirmed, the target file was accessed using the path referenced by the challenge. Inspection of the file contents revealed the second flag, demonstrating successful access to the intended resource.
 
+![2nd Flag](images/im27.png)
+
 ## Conclusion
 
 With both flags successfully obtained, the challenge was completed. This room demonstrated the importance of thorough enumeration and showed how seemingly minor disclosures can be leveraged to achieve higher levels of access.
 
 Thanks for reading, and I hope you found this walkthrough useful.
-
-![2nd Flag](images/im27.png)
