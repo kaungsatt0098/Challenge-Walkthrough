@@ -94,7 +94,87 @@ Upon reviewing the "error.logs" file, several authentication failure messages we
 
 ![error_logs](images/im08.png)
 
+## Authentication Testing
+
+Using the previously discovered username , a password reset request was initiated through the application's "Forgot your Password" feature. After submitting the username, the application redirected to an OTP verification page, where a four-digit OTP was required to continue the password reset process.
+
+During this stage, it was observed that the OTP was valid for only 180 seconds, indicating a time-based restriction on the verification process.
 We can now try to enter the email in the "Forgot Password" field. After clicking the "Submit" button, it asks for OTP verification. And reveling that we only have 180 seconds to enter the OTP.
+![Otp](images/im09.png)
 
-![OTP](images/im10.png)
+## Bypassing the Rate Limit
 
+Since it is only four digit,we should be able to brute-force it easily.However if we attempt to do so, we will first notice the `Rate-Limit-Pending` header in the response, indicating we have 4 remaining attempts.
+
+![rate_attempt](images/im11.png)
+
+If the limit is exceeded, the page displays a "rate limit exceeded" message.
+![rate_limit](images/im12.png)
+
+Trying out different common methods for it, we have success using the X-Forwarded-For header.If we add the `X-Forwarded-For: 127.0.0.1` header, we can see the rate limit counter being reset. Of course, once this counter also reaches zero, we will be once again rate-limited.  But simply changing the IP address in the header, we are able to reset the counter once more.
+
+## Brute-Forcing and Reseting the Password for First Flag
+
+At this point, I got stuck for a long time. I wasn’t able to brute-force the OTP using ffuf or Burp Suite. So, I Googled the issue and found a script for brute-forcing OTPs. I’ll provide a link to the script in the reference section below.
+
+[Passwrod_Resetb Code](Script.py)
+
+![Entering Value](images/im13.png)
+
+After enetring the IP address and phpsesid vales, the tool started brute-forcing.
+
+![OTP value](images/im14.png)
+
+As we can see, the tool successfully found the OTP. After entering the OTP value on the verification page, it will ask you to set a new password.
+
+![PSW Reset](images/im15.png)
+
+So we can login by typing the new passwod and an email address we found earlier.
+
+![Login](images/im16.png)
+
+Using these new credentials to login at `http://10.48.156.163:1337/index.php`, we get redirected to `http://10.48.156.163:1337/dashboard.php` where we get our first flag.
+
+![1st Flag](images/im17.png)
+
+## Second Flag
+
+There is a search box in the application, and when we try the "ls" command, it displays multiple files.
+
+![ls](images/im18.png)
+
+Let's try other coomands to check if they are worked or not.But unfornatulately the error is showed.
+
+![other command]((images/im19.png)
+
+While reviewing the page source, a JWT (JSON Web Token) value was discovered. Since JWTs are commonly used to store authentication and session-related information, this finding warranted further investigation. The token could potentially reveal useful claims, user information, or security weaknesses depending on how it was implemented by the application.
+
+![JWT_Token](images/im20.png)
+
+After decoding the JWT token with jwt.io, the payload revealed a key file path `/var/www/mykey.key` and a "role" claim. Both findings appeared significant, as they could provide insight into how authentication and authorization were implemented within the application.
+
+Having previously identified a ".key" file, I attempted to access it directly via the web server. The file was successfully downloaded, and inspection of its contents revealed the JWT signing key referenced in the token payload. This provided valuable insight into how the application handled JWT authentication.
+
+![Read the Key file](images/im23.png)
+
+Using the information gathered during enumeration, the JWT was modified and re-signed. The "kid" header value (1) was updated to point to the discovered key file, while the "role" claim (2) was changed to "admin". Finally, the recovered signing key (3) was supplied to generate a valid signature. The modified token was then encoded, producing a new JWT with elevated privileges.
+
+![Encode new JWT](images/im24.png)
+
+The request was intercepted using Burp Suite and forwarded to Repeater. The original JWT was replaced with the newly generated token, and the modified request was resent to verify whether the application trusted the updated token.
+
+![Change JWT](images/im25.png)
+
+As an initial test, the `pwd` command was executed to confirm command execution. The server returned the current working directory, indicating that the payload was functioning correctly.
+
+![Try Command](images/im26.png)
+
+With command execution confirmed, the target file was accessed using the path referenced by the challenge. Inspection of the file contents revealed the second flag, demonstrating successful access to the intended resource.
+
+## Conclusion
+
+With both flags successfully obtained, the challenge was completed. This room demonstrated the importance of thorough enumeration and showed how seemingly minor disclosures can be leveraged to achieve higher levels of access.
+
+Thanks for reading, and I hope you found this walkthrough useful.
+
+![2nd Flag](images/im27.png)
